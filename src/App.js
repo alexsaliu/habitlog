@@ -1,7 +1,7 @@
 import React, {useState,  useEffect } from 'react';
 import './index.css';
-
 import Habit from './components/Habit.js'
+import NewHabit from './components/NewHabit.js'
 
 import {
     setTest
@@ -15,8 +15,12 @@ function App() {
 
     useEffect(() => {
         console.log(state);
+        localStorage.setItem('habits', JSON.stringify(state.habits))
     }, [state])
 
+    const addHabit = () => {
+        console.log("ok");
+    }
 
   return (
     <div className="app">
@@ -31,16 +35,7 @@ function App() {
                     />
                 )}
 
-                {/* <div v-if="!addinghabit" @click="addinghabit = true" className="add-placeholder">
-                    Add<span>+</span>
-                </div>
-                <div v-else className="new-habit">
-                    <input v-model="newhabit" type="text" placeholder="name"/>
-                    <div className="colors">
-                        <div v-for="(color, i) in colors" :key="i" className="color" @click="selectColor(i)" :style="{border: `2px solid ${color}`, background: color ===  selectedColor ? color : ''}"></div>
-                    </div>
-                    <button className="add-habit" @click="addhabit()">Add habit</button>
-                </div> */}
+                <NewHabit />
             </div>
     </div>
   );

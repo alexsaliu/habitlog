@@ -1,6 +1,7 @@
 import {
     SET_TEST,
-    UPDATE_HABITS
+    UPDATE_HABITS,
+    ADD_HABIT
 } from '../constants.js';
 
 export const setTest = (val) => {
@@ -14,5 +15,12 @@ export const updateHabits = (habits) => {
     return {
         type: UPDATE_HABITS,
         payload: habits,
+    }
+}
+
+export const addHabit = (habit) => {
+    return {
+        type: ADD_HABIT,
+        payload: habit,
     }
 }

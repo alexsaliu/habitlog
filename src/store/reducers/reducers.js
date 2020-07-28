@@ -1,27 +1,12 @@
 import {
     SET_TEST,
-    UPDATE_HABITS
+    UPDATE_HABITS,
+    ADD_HABIT
 } from '../constants.js';
 
 const initialState = {
     test: "",
-    habits: [
-      {
-        name: 'bed 10pm',
-        records: '010',
-        color: 'lightgreen'
-      },
-      {
-        name: 'exercise',
-        records: '111',
-        color: 'yellow'
-      },
-      {
-        name: '1 hour',
-        records: '111',
-        color: 'lightblue'
-      }
-    ]
+    habits: JSON.parse(localStorage.getItem('habits')) || []
 }
 
 export const habitsReducer = (state = initialState, action = {}) => {
@@ -30,6 +15,8 @@ export const habitsReducer = (state = initialState, action = {}) => {
             return {...state, test: action.payload};
         case UPDATE_HABITS:
             return {...state, habits: action.payload};
+        case ADD_HABIT:
+            return {...state, habits: [...state.habits, action.payload]};
         default:
             return state;
     }

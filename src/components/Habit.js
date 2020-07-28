@@ -1,4 +1,5 @@
 import React, {useState,  useEffect } from 'react';
+import moment from 'moment';
 import './habit.css';
 
 import {
@@ -15,6 +16,12 @@ const Habit = ({habit, index}) => {
 
     const state = useSelector(state => state.habits);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log(moment().format());
+        console.log(moment('2020-07-21').add(7, 'days').isSame(moment(), 'day'));
+        // console.log(moment().format());
+    }, [])
 
     useEffect(() => {
         setRecords(habit.records.split(''));
@@ -55,15 +62,15 @@ const Habit = ({habit, index}) => {
 
 
   return (
-      <div className="habit">
-          <div className="title">{habit.name}</div>
-          <div className="card-container" style={{'borderTop': `3px solid ${habit.color}`}}>
+    <div className="habit">
+        <div className="card-container" style={{'borderTop': `3px solid ${habit.color}`}}>
             {/* <div v-if="removehabits" @click="$emit('remove', index)" className="remove">x</div> */}
             <div className="info">
-              <div className="streak">streak <span>{currentStreak}</span></div>
-              <div className="score">total {habit.records.length}</div>
+                <div className="title">{habit.name}</div>
+                <div className="streak">Streak <span>{currentStreak}/{habit.records.length}</span></div>
             </div>
-            <div className="item-container">
+
+                <div className="item-container">
                 {records.map((item, i) =>
                     <div
                         onClick={() => changeStatus(item, i)}
@@ -72,19 +79,21 @@ const Habit = ({habit, index}) => {
                         key={i}>
                     </div>
                 )}
-              {/* <div
+                {/* <div
                 v-for="(status, i) in habit.records"
                 :key="i"
                 :style="{background: status === '1' ? habit.color : '#fbfbfb'}"
                 :className="['item']"
                 @click="changeStatus(status, i)"
-              ></div> */}
-            </div>
+                ></div> */}
+                <div style={{background: '#fbfbfb'}} className="item">
+                </div>
+                </div>
             {/* <div className="add" @click="addItem">
-              Add +
+            Add +
             </div> */}
-          </div>
         </div>
+    </div>
   );
 }
 
