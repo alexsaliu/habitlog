@@ -18,12 +18,12 @@
 }
 
 .add-habit {
-    background: #fbfbfb;
     color: black;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;
+    text-shadow: 1px 1px 3px white;
 }
 
 .add-placeholder {
@@ -59,4 +59,26 @@
     width: 100%;
     flex-wrap: wrap;
     margin: 5px 0;
+}
+
+.targets {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    margin: 2px 0 5px;
+}
+
+.targets div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: bold;
+    width: 25px;
+    height: 25px;
+}
+
+.target-label {
+    font-size: 11px;
 }

@@ -68,6 +68,7 @@ const Habit = ({habit, index}) => {
             <div className="info">
                 <div className="title">{habit.name}</div>
                 <div className="streak">Streak <span>{currentStreak}/{habit.records.length}</span></div>
+                <div className="remaining" style={{'border': `1px solid ${habit.color}`}}>7</div>
             </div>
 
                 <div className="item-container">

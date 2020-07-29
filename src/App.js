@@ -26,7 +26,7 @@ function App() {
     <div className="app">
         <input onChange={(e) => dispatch(setTest(e.target.value))} type="text" />
             {/* {state.test} */}
-            <div className="cards-container">
+            <div className="habits-container">
                 {state.habits.map((habit, i) =>
                     <Habit
                         key={i}

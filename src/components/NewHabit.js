@@ -1,6 +1,6 @@
 import React, {useState,  useEffect } from 'react';
 import './newHabit.css';
-import { habitColors } from '../content.js';
+import { habitColors, targetDays } from '../content.js';
 
 import {
     addHabit
@@ -11,18 +11,26 @@ import { useSelector, useDispatch } from 'react-redux';
 const NewHabit = () => {
     const [addingHabbit, setAddingHabbit] = useState(false);
     const [colors, setColors] = useState(habitColors);
+    const [targets, setTargets] = useState(targetDays);
     const [selectedColor, setSelectedColor] = useState('');
+    const [selectedTarget, setSelectedTarget] = useState('');
+    const [habitApproved, setHabitApproved] = useState(false);
     const [habitName, sethabitName] = useState('');
     const state = useSelector(state => state.habits);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        setHabitApproved((habitName.length > 0 && selectedColor && selectedTarget));
+    }, [habitName, selectedColor, selectedTarget])
+
     const addNewHabit = () => {
-        if (habitName.length < 1 || !selectedColor) return;
+        if (!habitApproved) return;
         let habit = {
             name: habitName,
             records: '0',
             color: selectedColor,
-            startDate: ''
+            startDate: '',
+            target: '7'
         }
         dispatch(addHabit(habit));
         setAddingHabbit(false);
@@ -34,15 +42,29 @@ const NewHabit = () => {
                 <input onChange={(e) => sethabitName(e.target.value)} type="text" placeholder="name"/>
                 <div className="colors">
                     { colors.map((color, i) =>
-                    <div
-                        onClick={() => setSelectedColor(color)}
-                        style={{border: `2px solid ${color}`, background: color === selectedColor ? color : ''}}
-                        className="color"
-                        key={i}
-                    >
-                    </div>)}
+                        <div
+                            onClick={() => setSelectedColor(color)}
+                            style={{border: `2px solid ${color}`, background: color === selectedColor ? color : ''}}
+                            className="color"
+                            key={i}
+                        >
+                        </div>)
+                    }
                 </div>
-                <button className="add-habit" onClick={() => addNewHabit()}>Add habit</button>
+                <div className="target-label">Duration target (days)</div>
+                <div className="targets">
+                    {
+                        targets.map((target, i) =>
+                        <div
+                            onClick={() => setSelectedTarget(target)}
+                            key={i}
+                            style={{border: `2px solid ${selectedTarget === target ? selectedColor ? selectedColor : 'black' : 'lightgrey'}`}}
+                        >
+                            {target}
+                        </div>)
+                    }
+                </div>
+                <button style={{background: `${habitApproved ? selectedColor : '#fbfbfb'}`}} className="add-habit" onClick={() => addNewHabit()}>Add habit</button>
             </div>
         );
     }

@@ -8,3 +8,10 @@ export const habitColors = [
     "indianred",
     "gold"
 ]
+
+export const targetDays = [
+    "7",
+    "28",
+    "90",
+    "365",
+]
