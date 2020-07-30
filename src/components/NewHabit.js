@@ -1,4 +1,5 @@
 import React, {useState,  useEffect } from 'react';
+import moment from 'moment';
 import './newHabit.css';
 import { habitColors, targetDays } from '../content.js';
 
@@ -29,8 +30,8 @@ const NewHabit = () => {
             name: habitName,
             records: '0',
             color: selectedColor,
-            startDate: '',
-            target: '7'
+            startDate: moment().format(),
+            target: selectedTarget
         }
         dispatch(addHabit(habit));
         setAddingHabbit(false);

@@ -4,7 +4,8 @@ import './habit.css';
 
 import {
     setTest,
-    updateHabits
+    updateHabits,
+    deleteHabit
 } from '../store/actions/actions.js';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +14,7 @@ const Habit = ({habit, index}) => {
     const [records, setRecords] = useState([]);
     const [bestStreak, setBestStreak] = useState(0);
     const [currentStreak, setCurrentStreak] = useState(0);
+    const [completed, setCompleted] = useState(0);
 
     const state = useSelector(state => state.habits);
     const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const Habit = ({habit, index}) => {
         setRecords(habit.records.split(''));
         setBestStreak(calcBestStreak(habit.records));
         setCurrentStreak(calcCurrentStreak(habit.records));
+        setCompleted(calcCompleted(habit.records));
     }, [habit])
 
     const calcBestStreak = (data) => {
@@ -48,10 +51,19 @@ const Habit = ({habit, index}) => {
       return streak;
     }
 
+    const calcCompleted = (data) => {
+        let count = 0;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i] === '1') count ++;
+        }
+        return count;
+    }
+
     const changeStatus = (status, i) => {
         let habits = state.habits;
         let newStatus = status === '1' ? '0' : '1';
         let newHabit = {...habit, records: alterString(habit.records, i, newStatus)};
+        console.log(newHabit);
         habits[index] = newHabit;
         dispatch(updateHabits(habits));
     }
@@ -60,18 +72,27 @@ const Habit = ({habit, index}) => {
       return oldString.substr(0, index) + replacement + oldString.substr(index + replacement.length);
     }
 
+    const handelDeleteHabit = (index) => {
+        let habits = [];
+        for (let i = 0; i < state.habits.length; i++) {
+            if (i !== index) {
+                habits.push(state.habits[i]);
+            }
+        }
+        dispatch(deleteHabit(habits));
+    }
+
 
   return (
     <div className="habit">
         <div className="card-container" style={{'borderTop': `3px solid ${habit.color}`}}>
-            {/* <div v-if="removehabits" @click="$emit('remove', index)" className="remove">x</div> */}
+            {state.deleteHabits ? <div onClick={() => handelDeleteHabit(index)} className="remove">x</div> : ""}
             <div className="info">
                 <div className="title">{habit.name}</div>
-                <div className="streak">Streak <span>{currentStreak}/{habit.records.length}</span></div>
-                <div className="remaining" style={{'border': `1px solid ${habit.color}`}}>7</div>
+                <div className="score" style={{'border': `1px solid ${habit.color}`}}>{completed}/{habit.target}</div>
+                <div className="streak">Streak <span>{currentStreak}</span></div>
             </div>
-
-                <div className="item-container">
+            <div className="item-container">
                 {records.map((item, i) =>
                     <div
                         onClick={() => changeStatus(item, i)}
@@ -80,16 +101,9 @@ const Habit = ({habit, index}) => {
                         key={i}>
                     </div>
                 )}
-                {/* <div
-                v-for="(status, i) in habit.records"
-                :key="i"
-                :style="{background: status === '1' ? habit.color : '#fbfbfb'}"
-                :className="['item']"
-                @click="changeStatus(status, i)"
-                ></div> */}
-                <div style={{background: '#fbfbfb'}} className="item">
-                </div>
-                </div>
+                {/* <div style={{background: '#fbfbfb'}} className="item">
+                </div> */}
+            </div>
             {/* <div className="add" @click="addItem">
             Add +
             </div> */}

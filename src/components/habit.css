@@ -1,6 +1,8 @@
 .title {
     font-size: 12px;
     font-weight: bold;
+    width: 100%;
+    margin-bottom: 1px;
 }
 
 .habit {
@@ -20,11 +22,13 @@
     margin: 2px 6px;
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: end;
+    width: 110px;
 }
 
-.remaining {
+/* .remaining {
     position: absolute;
     right: 0;
     height: 30px;
@@ -37,7 +41,7 @@
     font-size: 11px;
     font-weight: bold;
     margin-top: 1px;
-}
+} */
 
 .card-container {
   background: white;
@@ -90,4 +94,15 @@
     right: -8px;
     top: -12px;
     cursor: pointer;
+}
+
+.score {
+    width: 40px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.streak {
+    width: 50%;
 }

@@ -2,9 +2,10 @@ import React, {useState,  useEffect } from 'react';
 import './index.css';
 import Habit from './components/Habit.js'
 import NewHabit from './components/NewHabit.js'
+import Name from './components/Name.js'
 
 import {
-    setTest
+    toggleDeleteHabits
 } from './store/actions/actions.js';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,16 +17,16 @@ function App() {
     useEffect(() => {
         console.log(state);
         localStorage.setItem('habits', JSON.stringify(state.habits))
+        localStorage.setItem('name', JSON.stringify(state.name))
     }, [state])
-
-    const addHabit = () => {
-        console.log("ok");
-    }
 
   return (
     <div className="app">
-        <input onChange={(e) => dispatch(setTest(e.target.value))} type="text" />
-            {/* {state.test} */}
+            <div className="header">
+                <Name />
+                <h1>HabitLog</h1>
+                <div style={{'color': state.deleteHabits ? 'red' : ''}} className="remove-habit" onClick={() => dispatch(toggleDeleteHabits(!state.deleteHabits))}>Remove A Habit</div>
+            </div>
             <div className="habits-container">
                 {state.habits.map((habit, i) =>
                     <Habit
@@ -34,7 +35,6 @@ function App() {
                         index={i}
                     />
                 )}
-
                 <NewHabit />
             </div>
     </div>
