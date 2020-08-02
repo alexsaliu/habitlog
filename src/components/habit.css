@@ -24,7 +24,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
     width: 110px;
 }
 
@@ -44,29 +44,29 @@
 } */
 
 .card-container {
-  background: white;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px -3px lightgrey;
-  position: relative;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px -3px lightgrey;
+    position: relative;
 }
 
 .item-container {
-  width: 120px;
-  font-size: 11px;
-  position: relative;
-  display: inline-block;
+    width: 120px;
+    font-size: 11px;
+    position: relative;
+    display: inline-block;
 }
 
 .item {
-  height: 15px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  margin: 4px;
-  cursor: pointer;
-  background: #fbfbfb;
-  padding: 2px;
-  word-break: break-word;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 4px;
+    cursor: pointer;
+    background: #fbfbfb;
+    padding: 2px;
+    word-break: break-word;
 }
 
 .add {
@@ -105,4 +105,11 @@
 
 .streak {
     width: 50%;
+}
+
+.tree-icon {
+    position: absolute;
+    z-index: -1;
+    height: 60px;
+    transform: translateX(-50%);
 }

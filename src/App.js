@@ -23,8 +23,8 @@ function App() {
   return (
     <div className="app">
             <div className="header">
-                <Name />
-                <h1>HabitLog</h1>
+                {/* <Name /> */}
+                <h1>HabitPlant</h1>
                 <div style={{'color': state.deleteHabits ? 'red' : ''}} className="remove-habit" onClick={() => dispatch(toggleDeleteHabits(!state.deleteHabits))}>Remove A Habit</div>
             </div>
             <div className="habits-container">

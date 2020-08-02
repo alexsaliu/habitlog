@@ -1,5 +1,7 @@
 import React, {useState,  useEffect } from 'react';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTree } from '@fortawesome/free-solid-svg-icons'
 import './habit.css';
 
 import {
@@ -22,8 +24,23 @@ const Habit = ({habit, index}) => {
     useEffect(() => {
         console.log(moment().format());
         console.log(moment('2020-07-21').add(7, 'days').isSame(moment(), 'day'));
-        // console.log(moment().format());
+        console.log("STart date: ", habit.startDate);
+        let dateDiff = moment().diff(habit.startDate, 'days');
+        if (habit.length < dateDiff) {
+            updateRecordsToDate(dateDiff);
+        }
     }, [])
+
+    const updateRecordsToDate = (dateDiff) => {
+        let habits = state.habits;
+        let records = habit.records;
+        for (let i = 0; i < dateDiff; i++) {
+            records += '0';
+        }
+        let updatedHabit = {...habit, records};
+        habits[index] = updatedHabit;
+        dispatch(updateHabits(habits));
+    }
 
     useEffect(() => {
         setRecords(habit.records.split(''));
@@ -60,6 +77,7 @@ const Habit = ({habit, index}) => {
     }
 
     const changeStatus = (status, i) => {
+        if (i !== habit.records.length - 1) return;
         let habits = state.habits;
         let newStatus = status === '1' ? '0' : '1';
         let newHabit = {...habit, records: alterString(habit.records, i, newStatus)};
@@ -82,26 +100,49 @@ const Habit = ({habit, index}) => {
         dispatch(deleteHabit(habits));
     }
 
+    const updateTarget = (habit, index) => {
+        console.log("Update target");
+        // let habits = state.habits;
+        // let target = '90';
+        // let updatedHabit = {...habit, target};
+        // habits[index] = updatedHabit;
+        // dispatch(updateHabits(habits));
+    }
+
 
   return (
     <div className="habit">
         <div className="card-container" style={{'borderTop': `3px solid ${habit.color}`}}>
             {state.deleteHabits ? <div onClick={() => handelDeleteHabit(index)} className="remove">x</div> : ""}
+            <FontAwesomeIcon class="tree-icon" icon={faTree}
+                style={{
+                    top: `-${(calcCompleted(habit.records) < 31 ? calcCompleted(habit.records) : 31) + 2}px`, 
+                    color: habit.color,
+                    height: '31px'
+                }}
+            />
             <div className="info">
                 <div className="title">{habit.name}</div>
-                <div className="score" style={{'border': `1px solid ${habit.color}`}}>{completed}/{habit.target}</div>
+                <div onClick={() => updateTarget(habit, index)} className="score" style={{'border': `1px solid ${habit.color}`}}>{completed}/{habit.target}</div>
                 <div className="streak">Streak <span>{currentStreak}</span></div>
             </div>
             <div className="item-container">
                 {records.map((item, i) =>
                     <div
                         onClick={() => changeStatus(item, i)}
-                        style={{background: item === '1' ? habit.color : '#fbfbfb'}}
+                        style={{
+                            background: item === '1' ? habit.color : '#fbfbfb',
+                            height: i !== habit.records.length - 1 ? '' : '20px'
+                        }}
                         className="item"
                         key={i}>
                     </div>
                 )}
-                {/* <div style={{background: '#fbfbfb'}} className="item">
+                {/* <div
+                    onClick={() => changeStatus(item, i)}
+                    style={{background: item === '1' ? habit.color : '#fbfbfb'}}
+                    style={{background: '#fbfbfb'}}
+                    className="item">
                 </div> */}
             </div>
             {/* <div className="add" @click="addItem">
