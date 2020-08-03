@@ -24,17 +24,17 @@ const Habit = ({habit, index}) => {
     useEffect(() => {
         console.log(moment().format());
         console.log(moment('2020-07-21').add(7, 'days').isSame(moment(), 'day'));
-        console.log("STart date: ", habit.startDate);
         let dateDiff = moment().diff(habit.startDate, 'days');
-        if (habit.length < dateDiff) {
-            updateRecordsToDate(dateDiff);
+        console.log(dateDiff);
+        if (habit.records.length - 1 < dateDiff) {
+            updateRecordsToDate(dateDiff - (habit.records.length - 1));
         }
     }, [])
 
-    const updateRecordsToDate = (dateDiff) => {
+    const updateRecordsToDate = (difference) => {
         let habits = state.habits;
         let records = habit.records;
-        for (let i = 0; i < dateDiff; i++) {
+        for (let i = 0; i < difference; i++) {
             records += '0';
         }
         let updatedHabit = {...habit, records};
@@ -114,9 +114,9 @@ const Habit = ({habit, index}) => {
     <div className="habit">
         <div className="card-container" style={{'borderTop': `3px solid ${habit.color}`}}>
             {state.deleteHabits ? <div onClick={() => handelDeleteHabit(index)} className="remove">x</div> : ""}
-            <FontAwesomeIcon class="tree-icon" icon={faTree}
+            <FontAwesomeIcon className="tree-icon" icon={faTree}
                 style={{
-                    top: `-${(calcCompleted(habit.records) < 31 ? calcCompleted(habit.records) : 31) + 2}px`, 
+                    top: `-${(calcCompleted(habit.records) < 31 ? calcCompleted(habit.records) : 31) + 2}px`,
                     color: habit.color,
                     height: '31px'
                 }}
